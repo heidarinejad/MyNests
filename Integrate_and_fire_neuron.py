@@ -16,7 +16,7 @@ def build_network(dt):
 
 
     neuron=nest.Create("iaf_psc_alpha")
-    nest.SetStatus(neuron, "I_e",376.0)   # neuron is recieved an external current
+    nest.SetStatus(neuron, "I_e",376.0)   # neuron is received an external current
 
     Vm=nest.Create('voltmeter')
     nest.SetStatus(Vm, 'withtime', True)  #times are given in the times vector in events
@@ -33,6 +33,7 @@ def build_network(dt):
 
 
 # the neuron is stimulated with 3 different dt and voltage is plotted
+i=1
 for dt in [0.1,0.5,1.0]:
     print("Running simulation with dt=%.2f" %dt)
     Vm,sd=build_network(dt)
@@ -49,6 +50,7 @@ for dt in [0.1,0.5,1.0]:
 
 
     # To print out the results (voltage trace over time)
+    pylab.figure(i)
     pylab.plot(times,potentials, label="dt=%.2f" %dt)
     print("Number of spikes: {0}".format(nest.GetStatus(sd, "n_events")[0]))
 
@@ -56,4 +58,6 @@ for dt in [0.1,0.5,1.0]:
     pylab.legend(loc=5)       # this is for defining the position of label box   0=<loc=<10
     pylab.xlabel("Time (ms)")
     pylab.ylabel("V_m (mV)")
+    pylab.show()
+    i=i+1
     #pylab.plt(times,potentials)
